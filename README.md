@@ -1,7 +1,7 @@
 # wxad-nodejs-element-ui
 
 
-基于 Vue + Element UI 的后台管理系统解决方案。[线上地址](http://vue.npmjs.top/) [后端项目地址](https://github.com/cnniit/wxad-nodejs-express)
+基于 Vue + Element UI 的后台管理系统解决方案。[线上地址](http://vue.npmjs.top/)用户名:admin 密码：123456 [后端项目地址](https://github.com/cnniit/wxad-nodejs-express)
 
 
 
