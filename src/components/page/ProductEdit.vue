@@ -80,9 +80,9 @@ export default {
     },
     mounted() {
         this.param = new FormData();
-              this.$http.post('http://ent.npmjs.top/apiv1/productedit', {id:this.id}).then(function(res) {
+              this.$http.post(this.global.serverPath+'/apiv1/productedit', {id:this.id}).then(function(res) {
                 this.form=res.data
-                this.src='http://ent.npmjs.top/'+res.data.pic
+                this.src=this.global.serverPath+'/'+res.data.pic
               }).catch((e) => {})
     },
     methods: {
@@ -119,7 +119,7 @@ export default {
             };
             //然后通过下面的方式把内容通过axios来传到后台
             //下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
-            this.$http.post('http://ent.npmjs.top/apiv1/productDoEdit', this.param, config).then(function(res) {
+            this.$http.post(this.global.serverPath+'/apiv1/productDoEdit', this.param, config).then(function(res) {
 
               if (res.data === '1') {
                   this.$message.success('修改成功')

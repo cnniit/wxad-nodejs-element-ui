@@ -105,7 +105,7 @@ export default {
 deleteFun(scope) {
       if (!scope.row.id) {
         this.tableData.splice(scope.$index, 1)
-         console.log(scope.row.id)
+        //  console.log(scope.row.id)
       } else {
         console.log(scope.row.id)
         this.$confirm('确认是否删除', '提示', {
@@ -115,9 +115,8 @@ deleteFun(scope) {
           center: true
         })
           .then(() => {
-            this.$http.post('http://ent.npmjs.top/apiv1/dmdelete', {id: scope.row.id}).then(res => {
-              console.log(res.data)
-                if (res.data === '1') {
+            this.$http.post(this.global.serverPath+'/apiv1/dmdelete', {id: scope.row.id}).then(res => {
+                if (res.data.code === 1) {
                   this.$message.success('删除成功')
                   this.tableData=[];
                   this.submitInfo();
@@ -139,7 +138,7 @@ deleteFun(scope) {
 },
 
       submitInfo: function () {
-          var api='http://ent.npmjs.top/apiv1/dm';
+          var api=this.global.serverPath+'/apiv1/dm';
           this.$http.get(api).then((response)=>{
             for(var i=0;i<response.body.length;i++){
               this.tableData.push(response.body[i]);

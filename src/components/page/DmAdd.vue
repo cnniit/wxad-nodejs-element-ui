@@ -95,6 +95,15 @@ export default {
             //表单提交的事件
             // var names = this.form.name;
             //下面append的东西就会到form表单数据的fields中；
+            var linkname = this.form.linkname
+            if (!linkname.match(/^\w+$/) || /^[0-9]+$/.test(linkname)) {
+                alert('只能输入数字、26个英文字母或者下划线组合')
+                return
+            }
+            if(linkname == "" || linkname == null || linkname == undefined){ // "",null,undefined
+                alert('推广链接名必须填写')
+                return
+            }
             this.param.append('linkname', this.form.linkname);
             this.param.append('cnzzdm', this.form.cnzzdm);
             this.param.append('cnzztj', this.form.cnzztj);
@@ -110,14 +119,13 @@ export default {
             };
             //然后通过下面的方式把内容通过axios来传到后台
             //下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
-            this.$http.post('http://ent.npmjs.top/apiv1/dmDoAdd', this.param, config).then(function(res) {
-              if (res.data === '1') {
+            this.$http.post(this.global.serverPath+'/apiv1/dmDoAdd', this.param, config).then(function(res) {
+              if (res.data.code === 1) {
                   this.$message.success('添加成功')
-                  location.reload();
                 } else {
                   this.$message.warning('添加失败')
-                  location.reload();
                 }
+                location.reload();
               })
               .catch(function(error) {
                 console.log(error)

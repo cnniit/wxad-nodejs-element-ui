@@ -14,6 +14,9 @@ import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
 
+import global from './components/common/Global'
+Vue.prototype.global=global
+
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(ElementUI, {

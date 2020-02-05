@@ -112,7 +112,7 @@ export default {
             };
             //然后通过下面的方式把内容通过axios来传到后台
             //下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
-            this.$http.post('http://ent.npmjs.top/apiv1/productDoAdd', this.param, config).then(function(res) {
+            this.$http.post(this.global.serverPath+'/apiv1/productDoAdd', this.param, config).then(function(res) {
               if (res.data === '1') {
                   this.$message.success('添加成功')
                   this.form = {}

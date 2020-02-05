@@ -116,7 +116,7 @@ deleteFun(scope) {
           center: true
         })
           .then(() => {
-            this.$http.post('http://ent.npmjs.top/apiv1/productdelete', {id: scope.row._id}).then(res => {
+            this.$http.post(this.global.serverPath+'/apiv1/productdelete', {id: scope.row._id}).then(res => {
               console.log(res.data)
                 if (res.data === '1') {
                   this.$message.success('删除成功')
@@ -140,10 +140,10 @@ deleteFun(scope) {
 },
 
       submitInfo: function () {
-          var api='http://ent.npmjs.top/apiv1/product';
+          var api=this.global.serverPath+'/apiv1/product';
           this.$http.get(api).then((response)=>{
             for(var i=0;i<response.body.length;i++){
-              response.body[i].pic='http://ent.npmjs.top/'+response.body[i].pic
+              response.body[i].pic=this.global.serverPath+'/'+response.body[i].pic
               this.tableData.push(response.body[i]);
             }
           },function(err){

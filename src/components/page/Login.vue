@@ -50,7 +50,7 @@ export default {
                         var username = this.param.username;
                         var password = this.param.password;
                         console.log(username)
-                        var api='http://ent.npmjs.top/admin/login/doLogin';
+                        var api=this.global.serverPath+'/admin/login/doLogin';
                         this.$http.post(api,{username,password}).then((response)=>{
                             console.log(response.body);
                             if(response.body == 1){

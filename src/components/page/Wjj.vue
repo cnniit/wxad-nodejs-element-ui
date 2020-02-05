@@ -100,18 +100,18 @@
         activeName: 'second',
         form: {
           srcpath: '',
-          destdir: '',
+          destdir: '/home/dist',
           newfilename: '',
 
           srcpath3:'',
           links:[],
 
         },
-        msg2:''
+        msg2:'',
+        msg3:''
       };
     },
     methods: {
-
         onSubmit(){
 
         },
@@ -130,8 +130,8 @@
                 newfilename:obj
             }
             // document.getElementsByTagName('form')[0].submit();
-            this.$http.post('http://ent.npmjs.top/apiv1/singlern', formData).then(res => {
-                if (res.data !== '') {
+            this.$http.post(this.global.serverPath+'/apiv1/singlern', formData).then(res => {
+                if (!res.data.code) {
                   this.$message.success(`重命名${res.data}成功`)
                 } else {
                   this.$message.warning('重命名失败')
@@ -200,16 +200,26 @@
                 links:tmpvals
             }
         // document.getElementsByTagName('form')[1].submit();
-            this.$http.post('http://ent.npmjs.top/apiv1/multirn', formData).then(res => {
-                if (res.data.length > 0) {
+            this.$http.post(this.global.serverPath+'/apiv1/multirn', formData).then(res => {
                     res.data.forEach((k,i) => {
-                        this.msg2+=k.link+' '
+                        if(res.data[i].code == 1){
+                             this.msg2+=`重命名`+res.data[i].link+'成功<br>'
+                            this.$message({
+                            dangerouslyUseHTMLString: true,
+                            message: this.msg2,
+                            type: 'success'
                     });
-                    this.$message.success(`重命名${this.msg2}成功`)
+                        }else{
+                             this.msg3+=`重命名`+res.data[i].link+'失败<br>'
+                            this.$message({
+                            dangerouslyUseHTMLString: true,
+                            message: this.msg3,
+                            type: 'warning'
+                    });
+                        }
+                    });
+                    this.msg3=''
                     this.msg2=''
-                } else {
-                  this.$message.warning('重命名失败')
-                }
           }).catch(function(error) {
                 console.log(error)
               })
@@ -232,12 +242,26 @@
                 toindex
             }
             // document.getElementsByTagName('form')[2].submit();
-            this.$http.post('http://ent.npmjs.top/apiv1/indexrn', formData).then(res => {
-                if (res.data.code == 1) {
-                    this.$message.success(`重命名${res.data.tpl}成功`)
-                } else {
-                  this.$message.warning(`重命名${res.data.tpl}失败`)
-                }
+            this.$http.post(this.global.serverPath+'/apiv1/indexrn', formData).then(res => {
+                res.data.forEach((k,i) => {
+                        if(res.data[i].code == 1){
+                             this.msg2+=`重命名`+res.data[i].tpl+'成功<br>'
+                            this.$message({
+                            dangerouslyUseHTMLString: true,
+                            message: this.msg2,
+                            type: 'success'
+                    });
+                        }else{
+                             this.msg3+=`重命名`+res.data[i].tpl+'失败<br>'
+                            this.$message({
+                            dangerouslyUseHTMLString: true,
+                            message: this.msg3,
+                            type: 'warning'
+                    });
+                        }
+                    });
+                    this.msg3=''
+                    this.msg2=''
              }).catch(function(error) {
                 console.log(error)
               })
@@ -250,3 +274,13 @@
     }
   };
 </script>
+
+
+<style>
+.el-message--success{
+    top: 28px !important
+}
+.el-message--warning{
+    top: 128px !important
+}
+</style>

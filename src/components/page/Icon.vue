@@ -34,7 +34,7 @@
     methods: {
       submitInfo: function () {
           console.log('ll')
-          var api='http://ent.npmjs.top/apiv1/';
+          var api=this.global.serverPath+'/apiv1/';
           this.$http.get(api).then((response)=>{
             console.log(response.body);
             this.list = response.body[0];

@@ -66,7 +66,8 @@
           links:[],
 
         },
-        msg2:''
+        msg2:'',
+        msg3:''
       };
     },
     methods: {
@@ -79,6 +80,10 @@
       },
       bt_submit_onclick(){
           var obj = this.$refs.table_name.value;
+           if (!obj.match(/^\w+$/) || /^[0-9]+$/.test(obj)) {
+                alert('只能输入数字、26个英文字母或者下划线')
+                return
+           }
         if(obj== "undefined" || obj == null || obj == ""){
             return false;
         }else{
@@ -86,8 +91,8 @@
                 table_name:obj,
             }
             // document.getElementsByTagName('form')[0].submit();
-            this.$http.post('http://ent.npmjs.top/apiv1/singlecr', formData).then(res => {
-                if (res.data !== '') {
+            this.$http.post(this.global.serverPath+'/apiv1/singlecr', formData).then(res => {
+                if (res.data.code) {
                   this.$message.success(`生成${res.data.tpl}成功`)
                 } else {
                   this.$message.warning('生成失败')
@@ -134,6 +139,14 @@
         var obj2 = this.$refs.prefix_name.value;
         var fromindex =  this.$refs.fromindex.value;
         var toindex =  this.$refs.toindex.value;
+        if (!obj2.match(/^\w+$/) || /^[0-9]+$/.test(obj2)) {
+                alert('只能输入数字、26个英文字母或者下划线组合')
+                return
+        }
+        if (!fromindex.match(/^[0-9]*$/) || !toindex.match(/^[0-9]*$/)) {
+                alert('只能输入数字')
+                return
+        }
         if(fromindex>toindex){
             return false;
         }
@@ -147,14 +160,27 @@
                 toindex
             }
             // document.getElementsByTagName('form')[2].submit();
-            this.$http.post('http://ent.npmjs.top/apiv1/multicr', formData).then(res => {
-                console.log(res)
-                if (res.data.code == 1) {
-                    this.$message.success(`生成${res.data.tpl}成功`)
-                } else {
-                  this.$message.warning(`生成${res.data.tpl}失败`)
-                }
-             }).catch(function(error) {
+            this.$http.post(this.global.serverPath+'/apiv1/multicr', formData).then(res => {
+                res.data.forEach((k,i) => {
+                        if(res.data[i].code == 1){
+                             this.msg2+=`重命名`+res.data[i].tpl+'成功<br>'
+                            this.$message({
+                            dangerouslyUseHTMLString: true,
+                            message: this.msg2,
+                            type: 'success'
+                    });
+                        }else{
+                             this.msg3+=`重命名`+res.data[i].tpl+'失败<br>'
+                            this.$message({
+                            dangerouslyUseHTMLString: true,
+                            message: this.msg3,
+                            type: 'warning'
+                    });
+                        }
+                    });
+                    this.msg3=''
+                    this.msg2=''
+          }).catch(function(error) {
                 console.log(error)
               })
         }
