@@ -21,6 +21,9 @@
 ## 安装步骤
 
 ```
+修改./src/components/common下的Global.vue的后端服务路径‘serverPath’
+修改./src/components/page下的Wjj.vue的‘测试推广页’路径
+
 git clone https://github.com/cnniit/wxad-nodejs-element-ui.git      // 把模板下载到本地
 cd wxad-nodejs-element-ui    // 进入模板目录
 npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
